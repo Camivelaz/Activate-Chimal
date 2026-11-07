@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Iniciar sesión | Actívate + Chimal{% endblock %}
+
+{% block content %}
+<section class="auth-contenedor">
+    <div class="auth-decoracion">
+        <span>✦</span>
+        <h2>Tu comunidad te espera</h2>
+        <p>Continúa con tus actividades y retos deportivos.</p>
+        <div class="auth-emoji">🏆</div>
+    </div>
+
+    <div class="auth-formulario">
+        <span class="etiqueta">BIENVENIDO DE NUEVO</span>
+        <h1>Iniciar sesión</h1>
+        <p>Ingresa a tu cuenta.</p>
+
+        <form method="POST">
+            <label>Usuario o correo</label>
+            <input type="text" name="identificador" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="password" required>
+
+            <button type="submit" class="btn-principal ancho">
+                Entrar
+            </button>
+        </form>
+
+        <p class="auth-enlace">
+            ¿No tienes cuenta?
+            <a href="{{ url_for('auth.registro') }}">Regístrate</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

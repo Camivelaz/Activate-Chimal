@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Registro | Actívate + Chimal{% endblock %}
+
+{% block content %}
+<section class="auth-contenedor">
+    <div class="auth-decoracion">
+        <span>✦</span>
+        <h2>¡Únete al movimiento!</h2>
+        <p>Forma parte de una comunidad deportiva más activa.</p>
+        <div class="auth-emoji">🏃‍♀️</div>
+    </div>
+
+    <div class="auth-formulario">
+        <span class="etiqueta">CREA TU CUENTA</span>
+        <h1>Regístrate</h1>
+        <p>Completa tus datos para comenzar.</p>
+
+        <form method="POST">
+            <label>Nombre completo</label>
+            <input type="text" name="nombre" required maxlength="100">
+
+            <label>Nombre de usuario</label>
+            <input type="text" name="usuario" required maxlength="40">
+
+            <label>Correo electrónico</label>
+            <input type="email" name="correo" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="password" minlength="8" required>
+
+            <label>Confirmar contraseña</label>
+            <input type="password" name="confirmar" minlength="8" required>
+
+            <button type="submit" class="btn-principal ancho">
+                Crear cuenta
+            </button>
+        </form>
+
+        <p class="auth-enlace">
+            ¿Ya tienes cuenta?
+            <a href="{{ url_for('auth.login') }}">Inicia sesión</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Mi panel | Actívate + Chimal{% endblock %}
+
+{% block content %}
+
+<section class="panel-encabezado">
+    <div>
+        <span class="etiqueta">TU ESPACIO DEPORTIVO</span>
+        <h1>¡Hola, {{ usuario['nombre'] }}!</h1>
+        <p>Este es tu centro de actividades.</p>
+    </div>
+
+    <a href="{{ url_for('profile.perfil') }}" class="perfil-mini">
+        {% if usuario['foto_perfil'] %}
+            <img src="{{ url_for('static', filename='uploads/perfiles/' ~ usuario['foto_perfil']) }}" alt="Perfil">
+        {% else %}
+            <span>👤</span>
+        {% endif %}
+    </a>
+</section>
+
+<section class="estadisticas">
+    <article class="stat-card">
+        <span>🔥</span>
+        <div><strong>{{ racha }}</strong><small>Días de racha</small></div>
+    </article>
+
+    <article class="stat-card">
+        <span>⭐</span>
+        <div><strong>{{ puntos }}</strong><small>Puntos acumulados</small></div>
+    </article>
+
+    <article class="stat-card">
+        <span>🏟️</span>
+        <div><strong>{{ reservas }}</strong><small>Reservas confirmadas</small></div>
+    </article>
+</section>
+
+<section class="panel-secciones">
+    <div class="titulo-seccion izquierda">
+        <span>EXPLORA</span>
+        <h2>Tu espacio deportivo</h2>
+        <p>Selecciona el apartado que quieras visitar.</p>
+    </div>
+
+    <div class="grid-secciones">
+
+        <a href="{{ url_for('main.canchas') }}" class="seccion-card">
+            <span>🏟️</span><h3>Canchas</h3><p>Conoce los espacios.</p>
+        </a>
+
+        <a href="{{ url_for('main.reservas') }}" class="seccion-card">
+            <span>📋</span><h3>Reservas</h3><p>Solicita un horario.</p>
+        </a>
+
+        <a href="{{ url_for('main.calendario') }}" class="seccion-card">
+            <span>📅</span><h3>Calendario</h3><p>Actividades y clases.</p>
+        </a>
+
+        <a href="{{ url_for('main.mapa') }}" class="seccion-card">
+            <span>📍</span><h3>Mapa</h3><p>Explora las áreas.</p>
+        </a>
+
+        <a href="{{ url_for('main.rachas') }}" class="seccion-card">
+            <span>🔥</span><h3>Rachas</h3><p>Registra tu actividad.</p>
+        </a>
+
+        <a href="{{ url_for('main.retos') }}" class="seccion-card">
+            <span>🎯</span><h3>Retos</h3><p>Supera tus metas.</p>
+        </a>
+
+        <a href="{{ url_for('main.posiciones') }}" class="seccion-card">
+            <span>🏆</span><h3>Posiciones</h3><p>Clasificación.</p>
+        </a>
+
+        <a href="{{ url_for('main.actividad') }}" class="seccion-card">
+            <span>📈</span><h3>Mi actividad</h3><p>Consulta tu historial.</p>
+        </a>
+
+        <a href="{{ url_for('main.eventos') }}" class="seccion-card">
+            <span>🎉</span><h3>Eventos</h3><p>Próximas actividades.</p>
+        </a>
+
+        <a href="{{ url_for('main.avisos') }}" class="seccion-card">
+            <span>🔔</span><h3>Avisos</h3><p>Información importante.</p>
+        </a>
+
+        <a href="{{ url_for('main.reportes') }}" class="seccion-card">
+            <span>📝</span><h3>Reportes</h3><p>Envía sugerencias.</p>
+        </a>
+
+        <a href="{{ url_for('main.comunidad') }}" class="seccion-card">
+            <span>🤝</span><h3>Comunidad</h3><p>Comparte experiencias.</p>
+        </a>
+
+    </div>
+</section>
+
+{% endblock %}

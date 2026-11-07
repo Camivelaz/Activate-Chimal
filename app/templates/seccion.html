@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}{{ titulo }} | Actívate + Chimal{% endblock %}
+
+{% block content %}
+<section class="pagina">
+
+    <div class="titulo-seccion izquierda">
+        <span>ACTÍVATE + CHIMAL</span>
+        <h1>{{ titulo }}</h1>
+        <p>Consulta la información de tu comunidad deportiva.</p>
+    </div>
+
+    {% if tipo == 'reportes' %}
+    <article class="panel">
+        <h2>Enviar un reporte</h2>
+        <form method="POST">
+            <label>Asunto</label>
+            <input type="text" name="asunto" maxlength="100" required>
+            <label>Descripción</label>
+            <textarea name="mensaje" rows="4" maxlength="1000" required></textarea>
+            <button class="btn-principal" type="submit">Enviar reporte</button>
+        </form>
+    </article>
+    {% endif %}
+
+    {% if tipo == 'comunidad' %}
+    <article class="panel">
+        <h2>Compartir una experiencia</h2>
+        <form method="POST">
+            <textarea name="mensaje" rows="3" maxlength="500"
+                      placeholder="Comparte algo sobre tu actividad..." required></textarea>
+            <button class="btn-principal" type="submit">Publicar</button>
+        </form>
+    </article>
+    {% endif %}
+
+    {% if tipo == 'mapa' %}
+    <article class="panel mapa-esquematico">
+        <h2>Espacios del deportivo</h2>
+        <p>Representación orientativa de las áreas deportivas. Confirma la ubicación exacta en el lugar.</p>
+        <div class="mapa-grid">
+            {% for espacio in elementos %}
+            <div class="mapa-espacio">
+                <span>📍</span>
+                <strong>{{ espacio['nombre'] }}</strong>
+                <small>{{ espacio['deporte'] }}</small>
+            </div>
+            {% endfor %}
+            <div class="mapa-espacio"><span>🚻</span><strong>Baños</strong></div>
+            <div class="mapa-espacio"><span>💧</span><strong>Hidratación</strong></div>
+        </div>
+    </article>
+    {% endif %}
+
+    {% if elementos %}
+    <div class="lista-elementos">
+        {% for item in elementos %}
+        <article class="elemento-card">
+
+            <div>
+                {% if tipo == 'canchas' %}
+                    <span>🏟️</span>
+                    <h3>{{ item['nombre'] }}</h3>
+                    <p>{{ item['deporte'] }} · {{ item['descripcion'] }}</p>
+
+                {% elif tipo == 'retos' %}
+                    <span>🎯</span>
+                    <h3>{{ item['titulo'] }}</h3>
+                    <p>{{ item['descripcion'] }}</p>
+                    <p>Progreso: {{ item['progreso'] or 0 }} / {{ item['meta'] }}</p>
+                    <p>Recompensa: {{ item['puntos'] }} puntos</p>
+                    {% if item['completado'] %}
+                        <span class="estado">Completado</span>
+                    {% endif %}
+
+                {% elif tipo == 'posiciones' %}
+                    <span>🏆</span>
+                    <h3>{{ loop.index }}. {{ item['nombre'] }}</h3>
+                    <p>{{ item['puntos'] }} puntos</p>
+
+                {% elif tipo == 'actividad' %}
+                    <span>📈</span>
+                    <h3>{{ item['actividad'] }}</h3>
+                    <p>{{ item['fecha'] }}</p>
+                    <p>+{{ item['puntos'] }} puntos</p>
+
+                {% elif tipo == 'calendario' %}
+                    <span>📅</span>
+                    <h3>{{ item['titulo'] }}</h3>
+                    <p>{{ item['descripcion'] }}</p>
+                    <p>{{ item['fecha'] }} · {{ item['hora'] }}</p>
+                    <p>{{ item['lugar'] }}</p>
+
+                {% elif tipo == 'avisos' %}
+                    <span>🔔</span>
+                    <h3>{{ item['titulo'] }}</h3>
+                    <p>{{ item['mensaje'] }}</p>
+                    <small>{{ item['fecha'] }}</small>
+
+                {% elif tipo == 'reportes' %}
+                    <span>📝</span>
+                    <h3>{{ item['asunto'] }}</h3>
+                    <p>{{ item['mensaje'] }}</p>
+                    <small>Estado: {{ item['estado'] }}</small>
+
+                {% elif tipo == 'comunidad' %}
+                    <span>💬</span>
+                    <h3>{{ item['nombre'] }}</h3>
+                    <p>{{ item['mensaje'] }}</p>
+                    <small>{{ item['fecha'] }}</small>
+                {% endif %}
+            </div>
+
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+        {% if tipo != 'mapa' and tipo != 'reportes' and tipo != 'comunidad' %}
+        <article class="panel">
+            <h3>Próximamente habrá más información.</h3>
+            <p>Este apartado ya está conectado y podrá mostrar los datos que se agreguen a la plataforma.</p>
+        </article>
+        {% endif %}
+    {% endif %}
+
+    <a href="{{ url_for('main.dashboard') }}" class="volver">
+        ← Volver al panel
+    </a>
+
+</section>
+{% endblock %}

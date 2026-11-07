@@ -1,0 +1,454 @@
+{% extends "base.html" %}
+
+{% block title %}Mi perfil | Actívate + Chimal{% endblock %}
+
+{% block content %}
+
+<style>
+.perfil-contenedor {
+    max-width: 950px;
+    margin: 25px auto;
+    padding: 20px;
+}
+
+.perfil-tarjeta {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.08);
+}
+
+.perfil-encabezado {
+    text-align: center;
+    color: #1769aa;
+}
+
+/* FOTO DE PERFIL */
+.foto-contenedor {
+    position: relative;
+    width: 125px;
+    height: 125px;
+    margin: 20px auto;
+    display: block;
+}
+
+.foto-perfil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #4fc3f7;
+    background: #eaf7ff;
+    display: block;
+    box-sizing: border-box;
+}
+
+.boton-editar-foto {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translate(15%, 15%);
+    width: 36px;
+    height: 36px;
+    border: 3px solid white;
+    border-radius: 50%;
+    background: #168bd2;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 19px;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
+
+.boton-editar-foto:hover {
+    background: #0872b5;
+}
+
+#foto {
+    display: none;
+}
+
+#vistaPrevia {
+    display: none;
+}
+
+.boton-guardar-foto {
+    background: #168bd2;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px auto;
+}
+
+.boton-guardar-foto:hover {
+    background: #0872b5;
+}
+
+#formFoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* INFORMACIÓN */
+.perfil-datos {
+    line-height: 1.9;
+    color: #40566a;
+}
+
+/* AVATAR */
+.avatar-contenedor {
+    width: 280px;
+    height: 370px;
+    margin: 20px auto;
+    background: #eaf7ff;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.avatar-contenedor img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* PERSONALIZACIÓN */
+.perfil-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.perfil-formulario label {
+    font-weight: bold;
+    color: #245477;
+}
+
+.perfil-formulario select {
+    padding: 12px;
+    border: 1px solid #b9dced;
+    border-radius: 10px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.perfil-boton {
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    background: #168bd2;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.perfil-boton:hover {
+    background: #0872b5;
+}
+
+.perfil-nota {
+    text-align: center;
+    color: #64849a;
+    font-size: 13px;
+}
+</style>
+
+
+<div class="perfil-contenedor">
+
+    <!-- ENCABEZADO -->
+    <div class="perfil-tarjeta perfil-encabezado">
+
+        <h1>Mi perfil</h1>
+        <p>Bienvenido a tu espacio de Actívate + Chimal</p>
+
+        <!-- FORMULARIO DE FOTOGRAFÍA -->
+        <form
+            id="formFoto"
+            action="{{ url_for('profile.foto') }}"
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            <!-- CONTENEDOR ÚNICO DE FOTO Y LAPICITO -->
+            <div class="foto-contenedor">
+
+                {% if usuario['foto_perfil'] %}
+
+                    <img
+                        id="fotoActual"
+                        class="foto-perfil"
+                        src="{{ url_for('static', filename='uploads/' ~ usuario['foto_perfil']) }}"
+                        alt="Mi fotografía"
+                    >
+
+                {% else %}
+
+                    <div
+                        id="fotoActual"
+                        class="foto-perfil"
+                        style="display:flex; align-items:center; justify-content:center;"
+                    >
+                        <span style="font-size:48px;">👤</span>
+                    </div>
+
+                {% endif %}
+
+                <!-- VISTA PREVIA DENTRO DEL MISMO CONTENEDOR -->
+                <img
+                    id="vistaPrevia"
+                    class="foto-perfil"
+                    alt="Vista previa de fotografía"
+                >
+
+                <!-- LAPICITO -->
+                <label
+                    for="foto"
+                    class="boton-editar-foto"
+                    title="Cambiar fotografía"
+                >
+                    ✎
+                </label>
+
+            </div>
+
+            <input
+                type="file"
+                id="foto"
+                name="foto"
+                accept="image/jpeg,image/png,image/webp"
+                required
+            >
+
+            <button
+                type="submit"
+                id="guardarFoto"
+                class="boton-guardar-foto"
+                style="display:none;"
+            >
+                Guardar nueva fotografía
+            </button>
+
+        </form>
+
+        <h2>{{ usuario['nombre'] }}</h2>
+        <p>@{{ usuario['usuario'] }}</p>
+
+    </div>
+
+
+    <!-- INFORMACIÓN PERSONAL -->
+    <div class="perfil-tarjeta">
+
+        <h2>Mi información</h2>
+
+        <div class="perfil-datos">
+
+            <p>
+                <strong>Nombre:</strong>
+                {{ usuario['nombre'] }}
+            </p>
+
+            <p>
+                <strong>Usuario:</strong>
+                {{ usuario['usuario'] }}
+            </p>
+
+            <p>
+                <strong>Correo:</strong>
+                {{ usuario['correo'] }}
+            </p>
+
+            <p>
+                <strong>Fecha de registro:</strong>
+                {{ usuario['fecha_registro'] }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- AVATAR SNOOPY -->
+    <div class="perfil-tarjeta">
+
+        <h2 style="text-align:center;">Mi avatar</h2>
+
+        <p class="perfil-nota">
+            ¡Personaliza a Snoopy y crea tu propio estilo!
+        </p>
+
+        <div class="avatar-contenedor">
+
+            <img
+                src="{{ url_for('static', filename='img/avatar-snoopy.png') }}"
+                alt="Avatar Snoopy"
+            >
+
+        </div>
+
+        <form
+            class="perfil-formulario"
+            action="{{ url_for('profile.guardar_avatar') }}"
+            method="POST"
+        >
+
+            <label for="ropa">Tipo de ropa:</label>
+
+            <select name="ropa" id="ropa">
+
+                <option value="playera" {% if avatar.get('ropa') == 'playera' %}selected{% endif %}>
+                    Playera
+                </option>
+
+                <option value="sudadera" {% if avatar.get('ropa') == 'sudadera' %}selected{% endif %}>
+                    Sudadera
+                </option>
+
+                <option value="uniforme" {% if avatar.get('ropa') == 'uniforme' %}selected{% endif %}>
+                    Uniforme deportivo
+                </option>
+
+                <option value="pantalon" {% if avatar.get('ropa') == 'pantalon' %}selected{% endif %}>
+                    Pantalón
+                </option>
+
+            </select>
+
+
+            <label for="color">Color de ropa:</label>
+
+            <select name="color" id="color">
+
+                <option value="azul" {% if avatar.get('color') == 'azul' %}selected{% endif %}>
+                    Azul
+                </option>
+
+                <option value="celeste" {% if avatar.get('color') == 'celeste' %}selected{% endif %}>
+                    Celeste
+                </option>
+
+                <option value="morado" {% if avatar.get('color') == 'morado' %}selected{% endif %}>
+                    Morado
+                </option>
+
+                <option value="naranja" {% if avatar.get('color') == 'naranja' %}selected{% endif %}>
+                    Naranja
+                </option>
+
+                <option value="verde" {% if avatar.get('color') == 'verde' %}selected{% endif %}>
+                    Verde
+                </option>
+
+                <option value="negro" {% if avatar.get('color') == 'negro' %}selected{% endif %}>
+                    Negro
+                </option>
+
+            </select>
+
+
+            <label for="accesorio">Accesorios:</label>
+
+            <select name="accesorio" id="accesorio">
+
+                <option value="ninguno" {% if avatar.get('accesorio') == 'ninguno' %}selected{% endif %}>
+                    Sin accesorios
+                </option>
+
+                <option value="gorra" {% if avatar.get('accesorio') == 'gorra' %}selected{% endif %}>
+                    Gorra
+                </option>
+
+                <option value="lentes" {% if avatar.get('accesorio') == 'lentes' %}selected{% endif %}>
+                    Lentes
+                </option>
+
+                <option value="mochila" {% if avatar.get('accesorio') == 'mochila' %}selected{% endif %}>
+                    Mochila
+                </option>
+
+                <option value="audifonos" {% if avatar.get('accesorio') == 'audifonos' %}selected{% endif %}>
+                    Audífonos
+                </option>
+
+                <option value="muñequera" {% if avatar.get('accesorio') == 'muñequera' %}selected{% endif %}>
+                    Muñequera
+                </option>
+
+                <option value="gorra_deportiva" {% if avatar.get('accesorio') == 'gorra_deportiva' %}selected{% endif %}>
+                    Gorra deportiva
+                </option>
+
+            </select>
+
+            <button class="perfil-boton" type="submit">
+                Guardar mi avatar
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- JAVASCRIPT DE LA FOTO -->
+<script>
+const selectorFoto = document.getElementById("foto");
+const vistaPrevia = document.getElementById("vistaPrevia");
+const guardarFoto = document.getElementById("guardarFoto");
+const fotoActual = document.getElementById("fotoActual");
+
+selectorFoto.addEventListener("change", function() {
+
+    const archivo = this.files[0];
+
+    if (!archivo) {
+        return;
+    }
+
+    const tiposPermitidos = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    if (!tiposPermitidos.includes(archivo.type)) {
+        alert("Selecciona una imagen JPG, PNG o WEBP.");
+        this.value = "";
+        return;
+    }
+
+    const lector = new FileReader();
+
+    lector.onload = function(evento) {
+
+        vistaPrevia.src = evento.target.result;
+
+        vistaPrevia.style.display = "block";
+
+        fotoActual.style.display = "none";
+
+        guardarFoto.style.display = "block";
+
+    };
+
+    lector.readAsDataURL(archivo);
+
+});
+</script>
+
+{% endblock %}

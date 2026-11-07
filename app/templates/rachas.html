@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Mis rachas | Actívate + Chimal{% endblock %}
+
+{% block content %}
+<section class="pagina">
+
+    <div class="titulo-seccion izquierda">
+        <span>CONSTANCIA Y MOVIMIENTO</span>
+        <h1>Mi racha deportiva 🔥</h1>
+        <p>Registra tu actividad y construye tu progreso.</p>
+    </div>
+
+    <div class="estadisticas">
+        <article class="stat-card">
+            <span>🔥</span>
+            <div><strong>{{ racha }}</strong><small>Días consecutivos</small></div>
+        </article>
+
+        <article class="stat-card">
+            <span>⭐</span>
+            <div><strong>{{ puntos }}</strong><small>Puntos obtenidos</small></div>
+        </article>
+    </div>
+
+    <article class="panel registro-actividad">
+        <h2>Registrar actividad de hoy</h2>
+        <p>Registra una actividad que hayas realizado realmente.</p>
+
+        <form method="POST">
+            <label>Actividad realizada</label>
+            <select name="actividad" required>
+                <option value="Fútbol">Fútbol</option>
+                <option value="Básquetbol">Básquetbol</option>
+                <option value="Voleibol">Voleibol</option>
+                <option value="Caminata">Caminata</option>
+                <option value="Carrera">Carrera</option>
+                <option value="Ejercicio general">Ejercicio general</option>
+            </select>
+
+            <button class="btn-principal" type="submit">
+                Registrar mis 10 puntos
+            </button>
+        </form>
+    </article>
+
+    <div class="titulo-seccion izquierda">
+        <span>TU HISTORIAL</span>
+        <h2>Últimas actividades</h2>
+    </div>
+
+    <div class="lista-elementos">
+        {% for item in historial %}
+        <article class="elemento-card">
+            <div>
+                <h3>{{ item['actividad'] }}</h3>
+                <p>{{ item['fecha'] }}</p>
+            </div>
+            <strong class="puntos">+{{ item['puntos'] }} pts</strong>
+        </article>
+        {% else %}
+        <article class="panel">
+            <p>Aún no has registrado actividades. ¡Puedes comenzar hoy!</p>
+        </article>
+        {% endfor %}
+    </div>
+
+</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Inicio | Actívate + Chimal{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-texto">
+        <span class="etiqueta">DEPORTE · COMUNIDAD · BIENESTAR</span>
+        <h1>¡Actívate y transforma <span>Chimal!</span></h1>
+        <p>
+            Un espacio digital para conocer actividades deportivas,
+            reservar espacios y mantenerte en movimiento en el
+            Deportivo Tepalcates.
+        </p>
+
+        <div class="hero-botones">
+            <a href="{{ url_for('auth.registro') }}" class="btn-principal">
+                Comenzar ahora →
+            </a>
+            <a href="{{ url_for('auth.login') }}" class="btn-secundario">
+                Ya tengo cuenta
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+
+    <div class="hero-circulo snoopy-circulo">
+
+        <img
+            src="{{ url_for('static', filename='img/snoopy-ejercicio.jpeg') }}"
+            alt="Snoopy haciendo ejercicio"
+            class="snoopy-deporte"
+        >
+
+    </div>
+
+    <div class="hero-mini-card">
+        <div class="hero-mini-card">
+            <span>✦</span>
+            <div>
+                <strong>Tu comunidad activa</strong>
+                <small>El movimiento nos une</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="beneficios">
+    <div class="titulo-seccion">
+        <span>DESCUBRE</span>
+        <h2>Todo lo que puedes hacer</h2>
+        <p>Organiza tu actividad deportiva desde un solo lugar.</p>
+    </div>
+
+    <div class="grid-beneficios">
+        <article class="beneficio-card">
+            <span>🏟️</span>
+            <h3>Espacios deportivos</h3>
+            <p>Consulta las canchas y conoce sus horarios.</p>
+        </article>
+
+        <article class="beneficio-card">
+            <span>📅</span>
+            <h3>Actividades</h3>
+            <p>Descubre eventos, clases y torneos.</p>
+        </article>
+
+        <article class="beneficio-card">
+            <span>🔥</span>
+            <h3>Rachas y retos</h3>
+            <p>Registra tus actividades y acumula puntos.</p>
+        </article>
+
+        <article class="beneficio-card">
+            <span>🤝</span>
+            <h3>Comunidad</h3>
+            <p>Comparte experiencias y participa.</p>
+        </article>
+    </div>
+</section>
+
+<section class="franja-azul">
+    <h2>El primer paso es moverte.</h2>
+    <p>Conoce las posibilidades que ofrece tu comunidad.</p>
+    <a href="{{ url_for('auth.registro') }}" class="btn-principal">
+        Crear mi cuenta
+    </a>
+</section>
+
+{% endblock %}

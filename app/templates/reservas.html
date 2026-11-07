@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Reservas | Actívate + Chimal{% endblock %}
+
+{% block content %}
+<section class="pagina">
+    <div class="titulo-seccion izquierda">
+        <span>ORGANIZA TU ACTIVIDAD</span>
+        <h1>Reservar un espacio</h1>
+        <p>Selecciona una cancha y un horario disponible.</p>
+    </div>
+
+    <div class="panel formulario-panel">
+        <form method="POST">
+            <label>Cancha o espacio</label>
+            <select name="cancha_id" required>
+                {% for cancha in canchas %}
+                <option value="{{ cancha['id'] }}">
+                    {{ cancha['nombre'] }} · {{ cancha['deporte'] }}
+                </option>
+                {% endfor %}
+            </select>
+
+            <label>Fecha</label>
+            <input type="date" name="fecha" min="{{ hoy }}" required>
+
+            <label>Hora de inicio</label>
+            <input type="time" name="hora_inicio" min="07:00" max="20:00" required>
+
+            <label>Hora de finalización</label>
+            <input type="time" name="hora_fin" min="08:00" max="21:00" required>
+
+            <button class="btn-principal ancho" type="submit">
+                Solicitar reserva
+            </button>
+        </form>
+    </div>
+
+    <div class="titulo-seccion izquierda">
+        <span>MI HISTORIAL</span>
+        <h2>Mis reservas</h2>
+    </div>
+
+    <div class="lista-elementos">
+        {% for reserva in reservas %}
+        <article class="elemento-card">
+            <div>
+                <h3>{{ reserva['cancha'] }}</h3>
+                <p>{{ reserva['fecha'] }} · {{ reserva['hora_inicio'] }} a {{ reserva['hora_fin'] }}</p>
+                <span class="estado">{{ reserva['estado'] }}</span>
+            </div>
+
+            {% if reserva['estado'] == 'confirmada' %}
+            <form method="POST"
+                  action="{{ url_for('main.cancelar_reserva', reserva_id=reserva['id']) }}">
+                <button class="btn-cancelar" type="submit">
+                    Cancelar
+                </button>
+            </form>
+            {% endif %}
+        </article>
+        {% else %}
+        <div class="panel">
+            <p>Aún no tienes reservaciones.</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
