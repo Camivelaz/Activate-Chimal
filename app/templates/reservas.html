@@ -3,12 +3,11 @@
 
 {% block content %}
 <section class="pagina">
-    <div class="titulo-seccion izquierda">
-        <span>ORGANIZA TU ACTIVIDAD</span>
-        <h1>Reservar un espacio</h1>
-        <p>Selecciona una cancha y un horario disponible.</p>
-    </div>
-
+    yle="color:#00bfff;">Ver foto e información →</p>
+    </article>
+  </a>
+  {% endfor %}
+</div>
     <div class="titulo-seccion izquierda">
   <span>DEPORTIVO TEPALCATES</span>
   <h2>Explora los espacios</h2>
@@ -17,10 +16,13 @@
 <div class="lista-elementos">
   {% for cancha in canchas %}
   <a href="{{ url_for('main.detalle_cancha', cancha_id=cancha['id']) }}" style="text-decoration:none; color:inherit;">
-    <article class="elemento-card">
-      <h3>{{ cancha['nombre'] }}</h3>
-      <p>{{ cancha['deporte'] }}</p>
-      <p style="color:#00bfff;">Ver foto e información →</p>
+    <article class="elemento-card" style="padding:0; overflow:hidden;">
+      <img src="{{ url_for('static', filename='img/cancha-' + cancha['id']|string + '.jpg') }}" style="width:100%; height:180px; object-fit:cover; display:block;" onerror="this.src='https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800'">
+      <div style="padding:15px;">
+        <h3 style="margin:0;">{{ cancha['nombre'] }}</h3>
+        <p style="margin:5px 0;">{{ cancha['deporte'] }}</p>
+        <p style="color:#00bfff; margin:0;">Ver foto e información →</p>
+      </div>
     </article>
   </a>
   {% endfor %}
