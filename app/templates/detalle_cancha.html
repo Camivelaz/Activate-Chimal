@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ cancha['nombre'] }} | Activate + Chimal{% endblock %}
+{% block content %}
+<section class="pagina">
+  <a href="{{ url_for('main.reservas') }}">← Volver a reservas</a>
+  <div class="titulo-seccion izquierda">
+    <span>DEPORTIVO TEPALCATES</span>
+    <h1>{{ cancha['nombre'] }}</h1>
+    <p>{{ cancha['deporte'] }}</p>
+  </div>
+  <img src="{{ url_for('static', filename=extra.foto) }}" style="width:100%; border-radius:15px; margin:15px 0;" onerror="this.style.display='none'">
+  <p>{{ extra.descripcion }}</p>
+  <h3>Información</h3>
+  <p><b>📍 Ubicación:</b> {{ extra.ubicacion }}</p>
+  <p><b>🕐 Horario:</b> {{ extra.horario }}</p>
+  <p><b>🏟️ Superficie:</b> {{ extra.superficie }}</p>
+  <p><b>👥 Capacidad:</b> {{ extra.capacidad }}</p>
+  <p><b>✨ Servicios:</b> {{ extra.servicios }}</p>
+  <h3>Reglas</h3>
+  <p>{{ extra.reglas }}</p>
+  <a href="{{ url_for('main.reservas') }}" class="btn-principal ancho" style="display:block; text-align:center; margin-top:15px;">Reservar este espacio</a>
+</section>
+{% endblock %}
