@@ -9,6 +9,23 @@
         <p>Selecciona una cancha y un horario disponible.</p>
     </div>
 
+    <div class="titulo-seccion izquierda">
+  <span>DEPORTIVO TEPALCATES</span>
+  <h2>Explora los espacios</h2>
+  <p>Toca un espacio para ver su foto e información.</p>
+</div>
+<div class="lista-elementos">
+  {% for cancha in canchas %}
+  <a href="{{ url_for('main.detalle_cancha', cancha_id=cancha['id']) }}" style="text-decoration:none; color:inherit;">
+    <article class="elemento-card">
+      <h3>{{ cancha['nombre'] }}</h3>
+      <p>{{ cancha['deporte'] }}</p>
+      <p style="color:#00bfff;">Ver foto e información →</p>
+    </article>
+  </a>
+  {% endfor %}
+</div>
+    
     <div class="panel formulario-panel">
         <form method="POST">
             <label>Cancha o espacio</label>
